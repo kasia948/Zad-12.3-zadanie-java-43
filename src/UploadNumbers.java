@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class UploadNumbers {
     public static void main(String[] args) throws IOException {
@@ -11,16 +8,29 @@ public class UploadNumbers {
         File file = new File("liczby.txt");
         Scanner scan = new Scanner(file);
 
-        List<Integer> liczby = new LinkedList<>();
+        TreeMap<Integer, Integer> liczby = new TreeMap<>();
 
-        while (scan.hasNextLine()) {
-            int NextInt = scan.nextInt();
-            liczby.add(NextInt);
+        int nextKey; //zmienna która bedzie kluczem
+
+        while (scan.hasNextInt()) {
+
+            nextKey = scan.nextInt();// do zmiennej przypisuje się wartość z listy liczb
+            int liczbaWystaplien = 1; //inna zmienna (będzie liczyć ilość wystapliń)
+
+            if (!liczby.containsKey(nextKey)) {
+                liczby.put(nextKey, liczbaWystaplien); //wstawia do mapy pierszą liczbę do klucza i liba wsyt to 1
+            } else {
+                Integer wart = liczby.get(nextKey);
+                wart = wart + 1;
+                liczby.put(nextKey,wart);
+            }
         }
 
-        System.out.println(liczby.toString());
+        Set<Map.Entry<Integer, Integer>> entries = liczby.entrySet();
+        System.out.println(entries);
 
-
+        Integer k = liczby.firstKey();
+        System.out.println(liczby.firstKey()+": Liczba wystąpień: "+liczby.get(k));
+        System.out.println(liczby.keySet()+": Liczba wystąpień: "+liczby.values());
+        }
     }
-}
-
